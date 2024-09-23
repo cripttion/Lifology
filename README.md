@@ -2,7 +2,7 @@
 
 ## To Downlaod the apk and test 
 check the release and download the app-release.apk and install on your Android device.
-[go to release](https://github.com/cripttion/Lifology/tree/v1.0.1).
+[go to release](https://github.com/cripttion/Lifology/releases).
 Currently includes:
 
 - React Native
