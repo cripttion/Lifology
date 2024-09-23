@@ -34,6 +34,37 @@ export interface ApiFeedResponse {
   items: EpisodeItem[]
 }
 
+export interface UserDataResponse {
+  id: number,
+  firstName: string,
+  email: string,
+  phone: string,
+  company: {
+    department: string,
+    name: string,
+    title:string,
+    address: {
+      address: string,
+      city: string,
+      state: string,
+      stateCode: string,
+      postalCode: string,
+      coordinates: {
+        lat:number,
+        lng: number
+      },
+      country: string
+    }
+  }
+}
+
+export interface UserPostResponse {
+  userId: number,
+    id: number,
+    title: string,
+    body:string
+}
+
 /**
  * The options used to configure apisauce.
  */
