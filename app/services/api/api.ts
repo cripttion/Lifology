@@ -50,7 +50,8 @@ export class Api {
   }
 
   async getUserData(limit:number,skip:number): Promise<{ kind: "ok"; userData: UserDataResponse[] } | GeneralApiProblem> {
-    console.log("User data fetching called",limit,skip)
+    // console.log("User data fetching called",limit,skip)
+    //apisauce is used to call the APi it is the interface build over AXIOS for better API call
     const response: ApiResponse<UserDataResponse[]> = await this.apisauce.get(`users?limit=${limit}&skip=${skip}`);
     try {
   

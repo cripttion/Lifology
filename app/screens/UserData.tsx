@@ -42,11 +42,22 @@ interface UserDataProps extends AppStackScreenProps<"User"> {}
 
 export const UserScreen: FC<UserDataProps> = observer(function UserScreen() {
   const { userDataStore } = useStores();
+  const [userData,setUserData] = useState();
+  const [count,setcount] = useState(0);
   const navigation = useNavigation();
   const $bottomContainerInsets = useSafeAreaInsetsStyle(["bottom"]);
   const[loading,setLoading] = useState(false);
   useEffect(() => {
     userDataStore.fetchUserData();
+
+  }, []);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+       setUserData(userDataStore.userData)
+    }, 3000);
+
+    // Cleanup function
+    return () => clearTimeout(timer);
   }, []);
   const loadMoreData = () => {
     if (!userDataStore.loading && userDataStore.hasMore) {
@@ -61,7 +72,7 @@ export const UserScreen: FC<UserDataProps> = observer(function UserScreen() {
       }, 3000); // 3 seconds delay
     }
   };
-
+ console.log(userData)
   const renderItem = ({ item }: { item: User }) => (
     <Pressable onPress={()=>navigation.navigate('UserPost',{data:item})}  style={styles.userContainer}>
       <Image
@@ -70,7 +81,6 @@ export const UserScreen: FC<UserDataProps> = observer(function UserScreen() {
       />
       <View style={styles.userInfo}>
         <Text style={styles.name}>{item.firstName}</Text>
-        {/* <Text style={styles.details}>Username: {item.}</Text> */}
         <Text style={styles.details}>Email: {item.email}</Text>
         <Text style={styles.details}>Phone: {item.phone}</Text>
         <Text style={styles.details}>Company: {item?.company.name}</Text>
@@ -83,19 +93,18 @@ export const UserScreen: FC<UserDataProps> = observer(function UserScreen() {
       <View style={$topContainer}>
         <Text testID="welcome-heading" style={$welcomeHeading} text="Lifology Users" preset="heading" />
         <Text text="contributed by @Pulak Raj" preset="formHelper" />
-        {/* <Text text="GitHub | Linkedin | Email" preset="formHelper" /> */}
-      <Contact />
+        <Contact />
       </View>
 
       <View style={[$bottomContainer, $bottomContainerInsets]}>
         <FlatList
-          data={userDataStore.userData}
+          data={userDataStore?.userData}
           keyExtractor={(item, index) => `${item.id}-${index}`} // Use a unique key based on the user ID
           renderItem={renderItem}
           onEndReached={loadMoreData}
           onEndReachedThreshold={0.1} // Trigger loading more data when 50% from the bottom
           ListFooterComponent={() =>
-            loading ? (
+            userDataStore.loading? (
               <ActivityIndicator size="large" color={colors.palette.primary500} />
             ) : null
           }

@@ -15,7 +15,7 @@ export const UserPostScreen: FC<UserPostProps> = observer(function UserPostScree
   const[loading,setLoading] = useState(false);
   const navigation = useNavigation();
   const { data } = route.params;
-
+ console.log(UserPostStore.userPostData)
   useEffect(() => {
     UserPostStore.fetchUserPostData(data?.id); // Load initial posts
   }, [data]);
